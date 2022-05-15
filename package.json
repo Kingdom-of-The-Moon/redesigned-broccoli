@@ -1,0 +1,27 @@
+{
+  "name": "redesigned-broccoli",
+  "version": "1.0.0",
+  "description": "figura backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kingdom-of-The-Moon/redesigned-broccoli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kingdom-of-The-Moon/redesigned-broccoli/issues"
+  },
+  "homepage": "https://github.com/Kingdom-of-The-Moon/redesigned-broccoli#readme",
+  "dependencies": {
+    "mongodb": "^4.6.0",
+    "nanoid": "^3.3.4",
+    "rate-limiter-flexible": "^2.3.7",
+    "redis": "^4.1.0",
+    "ws": "^8.6.0"
+  }
+}
