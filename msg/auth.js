@@ -23,7 +23,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 		});
 	}
 
-	if (!user) {
+	if (!user) { // PLEASE make this not stupid.
 		user = {
 			uuid: uuid,
 			rank: 'default',
