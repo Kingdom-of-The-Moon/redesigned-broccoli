@@ -1,6 +1,6 @@
 module.exports = {
 	default: {
-		perAvatar: 1024 * 100,
+		maxAvatarSize: 1024 * 100,
 		maxAvatars: 10,
 		pingSize: [1024, 1],
 		pingRate: [32, 1],
@@ -8,7 +8,7 @@ module.exports = {
 		upload: [1, 3]
 	},
 	donator: {
-		perAvatar: 1024 * 200,
+		maxAvatarSize: 1024 * 200,
 		maxAvatars: 20,
 		pingSize: [2048, 1],
 		pingRate: [64, 1],
@@ -16,7 +16,7 @@ module.exports = {
 		upload: [1, 3]
 	},
 	vip: {
-		perAvatar: 1024 * 500,
+		maxAvatarSize: 1024 * 500,
 		maxAvatars: 50,
 		pingSize: [102400, 1],
 		pingRate: [100, 1],
