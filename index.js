@@ -18,10 +18,9 @@ console.clear();
 
 (async () => {
 	await mongo.connect();
-	console.log('MongoDB connected');
 	await redis.connect();
-	console.log('Redis connected');
 	figura = mongo.db('figura');
+	console.log('Figura backend is online.');
 })();
 
 const msgTypes = {};
