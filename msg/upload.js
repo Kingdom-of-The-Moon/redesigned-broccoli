@@ -10,7 +10,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	const valid = v.validate(parse(msg), config.schemas.avatarUpload).valid;
 	if (!valid) return utils.send(ws, { type: 'toast', toast: 'error', msg: 'Invalid data.' });
 
-	ws.limits.upload.consume(1).catch(() => { return });
+	ws.limits.upload.consume(1).catch(() => { return utils.rateLimited(ws) });
 
 	const l = config.limits[ws.rank];
 

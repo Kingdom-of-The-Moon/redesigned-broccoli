@@ -5,8 +5,8 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	if (!msg.data) return ws.close();
 
-	ws.limits.pingSize.consume(msg.data.length).catch(() => { return });
-	ws.limits.pingRate.consume(1).catch(() => { return });
+	ws.limits.pingSize.consume(msg.data.length).catch(() => { return utils.rateLimited(ws) });
+	ws.limits.pingRate.consume(1).catch(() => { return utils.rateLimited(ws) });
 
 	events.emit(`${ws.uuid}:ping`, msg.data);
 }
