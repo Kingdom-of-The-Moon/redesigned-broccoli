@@ -1,2 +1,6 @@
-# redesigned-broccoli
-figura backend
+# figura backend
+figura backend  
+
+things needed to run:  
+- mongodb  
+- redis
