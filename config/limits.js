@@ -21,6 +21,6 @@ module.exports = {
 		pingSize: [102400, 1],
 		pingRate: [100, 1],
 		download: [50, 1],
-		upload: [1, 3]
+		upload: [10, 1]
 	}
 }

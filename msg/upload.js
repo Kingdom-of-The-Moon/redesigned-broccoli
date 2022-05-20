@@ -1,10 +1,14 @@
 const utils = require('../utils');
 const config = require('../config');
 
+const Validator = require('jsonschema').Validator;
+const v = new Validator();
+
 module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	if (!ws.ready) return;
 
-	if (!msg.avatarData || !msg.uuid) return utils.send(ws, { type: 'toast', toast: 'error', msg: 'Invalid avatar data.' });
+	const valid = v.validate(parse(msg), config.schemas.avatarUpload).valid;
+	if (!valid) return utils.send(ws, { type: 'toast', toast: 'error', msg: 'Invalid data.' });
 
 	ws.limits.upload.consume(1).catch(() => { return });
 
