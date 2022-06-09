@@ -6,15 +6,15 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	ws.limits.upload.consume(ws.ip, 1).then(async () => {
 		const v = utils.validate(msg, utils.schemas.avatarUpload);
-		if (!v.valid) return utils.send(ws, { type: 'toast', toast: 'error', top: 'Upload Error', bottom: 'Invalid data.' });
+		if (!v.valid) return utils.send(ws, { type: 'toast', toast: 'error', top: 'upload_error', bottom: 'upload_invalid' });
 
 		const l = config.limits[ws.rank];
 
-		if (Buffer.byteLength(msg.data) > l.maxAvatarSize) return utils.send(ws, { type: 'toast', top: 'Upload Error', bottom: 'Your avatar is too large.' });
+		if (Buffer.byteLength(msg.data) > l.maxAvatarSize) return utils.send(ws, { type: 'toast', top: 'upload_error', bottom: 'upload_too_big' });
 
 		const avatars = await mongo.collection('avatars').countDocuments({ uuid: ws.uuid });
 
-		if (avatars > l.maxAvatars) return utils.send(ws, { type: 'toast', toast: 'error', top: 'Upload Error', bottom: 'You have too many avatars.' });
+		if (avatars > l.maxAvatars) return utils.send(ws, { type: 'toast', toast: 'error', top: 'upload_error', bottom: 'upload_too_many' });
 
 		/*
 		await mongo.collection('avatars').insertOne({
@@ -30,7 +30,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 			}
 		}, { upsert: true });
 
-		utils.send(ws, { type: 'toast', toast: 'default', top: 'Notice', bottom: 'Avatar uploaded.' });
+		utils.send(ws, { type: 'toast', toast: 'default', top: 'upload_success' });
 
 		events.emit(ws.uuid, { type: 'upload', id: msg.id });
 	}).catch(() => { return utils.rateLimited(ws, 'upload') });
