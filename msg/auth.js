@@ -1,6 +1,5 @@
 const utils = require('../utils');
 const config = require('../config');
-const { RateLimiterMemory } = require('rate-limiter-flexible');
 
 module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	if (ws.ready) return;
