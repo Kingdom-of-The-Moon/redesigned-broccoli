@@ -1,3 +1,4 @@
 module.exports = {
-	limits: require('./limits')
+	limits: require('./limits'),
+	lang: require('./lang')
 }
