@@ -11,7 +11,7 @@ module.exports.equip = {
 	properties: {
 		owner: { type: 'string', minLength: 1, maxLength: 64 },
 		avatars: { type: 'array', items: { type: 'object', properties: {
-			owner: { type: 'string', minLength: 32, maxLength: 32 },
+			owner: { type: 'string', minLength: 36, maxLength: 36 },
 			id: { type: 'string', minLength: 1, maxLength: 32 }
 		}, minLength: 1, maxLength: 20 } }
 	}
