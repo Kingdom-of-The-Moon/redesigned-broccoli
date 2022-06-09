@@ -5,7 +5,7 @@ const { RateLimiterMemory } = require('rate-limiter-flexible');
 module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	if (ws.ready) return;
 
-	if (!msg.token) return ws.close();
+	if (!msg.token) return ws.close(4000);
 
 	const uuid = await redis.get(msg.token);
 
