@@ -11,6 +11,8 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 		utils.send(ws, { type: 'toast', toast: 'default', raw: true, top: 'thing', bottom: '{"translate":"figura.gui.help.tooltip"}' });
 	}, m++ * b);
 
+	ws.close(4000);
+
 	/*setTimeout(() => {
 		utils.send(ws, { type: 'toast', toast: 'warning', raw: true, top: '{"text":"never gonna","color":"#FFFF00"}', bottom: '{"text":"let you down","color":"#008000"}' });
 	}, m++ * b);
