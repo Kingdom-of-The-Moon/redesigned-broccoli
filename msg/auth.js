@@ -9,7 +9,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	const uuid = await redis.get(msg.token);
 
-	if (!uuid) return ws.close();
+	if (!uuid) return ws.close(4000);
 
 	ws.uuid = uuid;
 
