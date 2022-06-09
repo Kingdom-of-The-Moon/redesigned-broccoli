@@ -3,5 +3,6 @@ module.exports = {
 	send: require('./send'),
 	parse: require('./parse'),
 	schemas: require('./schemas'),
-	rateLimited: require('./rateLimited')
+	rateLimited: require('./rateLimited'),
+	validate: require('./validate')
 }

@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const { createClient } = require('redis');
 const { WebSocketServer } = require('ws');
+const os = require('os');
 const EventEmitter = require('events');
 const fs = require('fs');
 const utils = require('./utils');
@@ -32,15 +33,19 @@ fs.readdirSync("./msg").forEach(file => {
 });
 
 wss.on("connection", (ws, req) => {
-	ws.on("message", (wsmsg) => {
+	ws.ip = req.socket.remoteAddress;
+
+	ws.on("message", async (wsmsg) => {
 		try {
-			let msg = JSON.parse(wsmsg);
+			let msg = utils.parse(wsmsg);
 			if (!msg.type) return utils.send(ws, { type: "system", message: `$ Invalid message.` });
 			const cmd = msgTypes[msg.type];
 			if (!cmd) return utils.send(ws, { type: "system", message: `$ Type not implemented.` });
-			cmd(wss, ws, msg, events, figura, redis);
+			await cmd(wss, ws, msg, events, figura, redis);
+			console.log('recv', ws.uuid, msg);
 		} catch (e) {
 			console.error(e);
+			console.log(wsmsg);
 			utils.send(ws, { type: "system", message: `$ Something went wrong.` });
 		}
 	});
@@ -58,6 +63,21 @@ wss.on("connection", (ws, req) => {
 		if (!ws.ready) ws.close();
 	}, 2000);
 });
+
+setInterval(() => {
+	events.emit('system', {
+		memory: {
+			process: process.memoryUsage().heapUsed,
+			used: os.totalmem() - os.freemem(),
+			total: os.totalmem(),
+			free: os.freemem()
+		},
+		uptime: {
+			process: process.uptime(),
+			system: os.uptime()
+		}
+	});
+}, 1000);
 
 setInterval(() => {
 	wss.clients.forEach(ws => {

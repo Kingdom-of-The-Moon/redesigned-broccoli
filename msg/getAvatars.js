@@ -9,5 +9,5 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	// the comment above this line was written by github copilot
 	// the comment above this line was not written by github copilot, I wrote it using my nose.
 
-	utils.send(ws, { type: 'getAvatarsOwnedBy', avatars });
+	utils.send(ws, { type: 'avatars', avatars });
 }

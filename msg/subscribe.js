@@ -8,6 +8,6 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	if (ws.subscribedTo[msg.uuid]) return;
 
 	ws.subscribedTo[msg.uuid] = events.on(msg.uuid, data => {
-		utils.send(ws, { type: 'ping', uuid: msg.uuid, data: pingData });
+		utils.send(ws, { type: 'event', uuid: msg.uuid, event: data });
 	});
 }

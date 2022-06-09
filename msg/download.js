@@ -3,13 +3,13 @@ const utils = require('../utils');
 module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	if (!ws.ready) return;
 
-	if (!msg.owner || !msg.uuid) return utils.send(ws, { type: 'toast', toast: 'error', msg: 'Invalid avatar download params.' });
+	ws.limits.download.consume(ws.ip, 1).then(async () => {
+		if (!msg.owner || !msg.id) return utils.send(ws, { type: 'toast', toast: 'error', msg: 'Invalid avatar download params.' });
 
-	ws.limits.download.consume(1).catch(() => { return utils.rateLimited(ws) });
+		const avatar = await mongo.collection('avatars').findOne({ owner: msg.owner, id: msg.id });
 
-	const avatar = await mongo.collection('avatars').findOne({ owner: msg.owner, uuid: msg.uuid });
+		if (!avatar) return utils.send(ws, { type: 'toast', toast: 'error', msg: 'Avatar not found.' });
 
-	if (!avatar) return utils.send(ws, { type: 'toast', toast: 'error', msg: 'Avatar not found.' });
-
-	utils.send(ws, { type: 'avatar', avatar: avatar });
+		utils.send(ws, { type: 'avatar', owner: msg.owner, id: msg.id, avatar: avatar });
+	}).catch(() => { return utils.rateLimited(ws, 'download') });
 }

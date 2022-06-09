@@ -2,6 +2,24 @@ module.exports.avatarUpload = {
 	type: 'object',
 	properties: {
 		id: { type: 'string', minLength: 1, maxLength: 32 },
+		data: { type: 'string' }
+	}
+}
+
+module.exports.equip = {
+	type: 'object',
+	properties: {
+		owner: { type: 'string', minLength: 1, maxLength: 64 },
+		avatars: { type: 'array', items: { type: 'object', properties: {
+			owner: { type: 'string', minLength: 32, maxLength: 32 },
+			id: { type: 'string', minLength: 1, maxLength: 32 }
+		}, minLength: 1, maxLength: 20 } }
+	}
+}
+
+/*
+reserved for future use in avatar browser
+
 		metadata: {
 			type: 'object',
 			properties: {
@@ -11,6 +29,5 @@ module.exports.avatarUpload = {
 				tags: { type: 'array', items: { type: 'string', minLength: 1, maxLength: 32 } }
 			}
 		},
-		avatarData: { type: 'buffer' }
-	}
-}
+
+*/
