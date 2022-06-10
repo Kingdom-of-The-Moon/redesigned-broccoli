@@ -42,7 +42,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	Object.keys(ws.limits).map(k => {
 		let limit = ws.limits[k];
-		if (limit?.constructor.name == 'RateLimiterMemory') limits[k] = [limit._points, limit._duration];
+		if (limit?.constructor.name == 'RateLimiterMemory') limits[k] = limit._points / limit._duration;
 		else limits[k] = limit;
 	});
 
