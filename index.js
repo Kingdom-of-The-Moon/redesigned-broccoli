@@ -32,8 +32,20 @@ fs.readdirSync("./msg").forEach(file => {
 	msgTypes[msgType] = require("./msg/" + file);
 });
 
+const connections = [];
+
 wss.on("connection", (ws, req) => {
 	ws.ip = req.socket.remoteAddress;
+
+	if (ws.ip in connections) {
+		if (connections[ws.ip].length >= 5) {
+			ws.close(4003, "Too many connections.");
+		}
+	} else {
+		connections[ws.ip] = [];
+	}
+
+	connections[ws.ip].push(ws);
 
 	ws.on("message", async (wsmsg) => {
 		try {
