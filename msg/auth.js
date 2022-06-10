@@ -38,11 +38,12 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	ws.ready = true;
 
-	limits = { ...ws.limits };
+	limits = {};
 
-	Object.keys(limits).map(k => {
-		let limit = limits[k];
+	Object.keys(ws.limits).map(k => {
+		let limit = ws.limits[k];
 		if (limit?.constructor.name == 'RateLimiterMemory') limits[k] = [limit._points, limit._duration];
+		else limits[k] = limit;
 	});
 
 	utils.send(ws, { type: 'connected', limits });
