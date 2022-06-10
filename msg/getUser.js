@@ -7,12 +7,5 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	const user = await mongo.collection('users').findOne({ uuid: msg.uuid });
 
-	user.limits = ws.limits;
-
-	Object.keys(user.limits).map(k => {
-		let limit = user.limits[k];
-		if (limit?.constructor.name == 'RateLimiterMemory') user.limits[k] = [limit._points, limit._duration];
-	});
-
 	utils.send(ws, { type: 'userInfo', user });
 }

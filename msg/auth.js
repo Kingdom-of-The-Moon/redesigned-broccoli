@@ -38,7 +38,14 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	ws.ready = true;
 
-	utils.send(ws, { type: 'connected' });
+	limits = ws.limits;
+
+	Object.keys(limits).map(k => {
+		let limit = limits[k];
+		if (limit?.constructor.name == 'RateLimiterMemory') limits[k] = [limit._points, limit._duration];
+	});
+
+	utils.send(ws, { type: 'connected', limits });
 
 	console.log(`${ws.uuid} connected.`);
 };
