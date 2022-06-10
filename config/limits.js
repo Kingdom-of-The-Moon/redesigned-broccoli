@@ -8,7 +8,7 @@ module.exports = {
 		pingSize: new RateLimiterMemory({ points: 1024, duration: 1, }),
 		pingRate: new RateLimiterMemory({ points: 32, duration: 1 }),
 		equip: new RateLimiterMemory({ points: 1, duration: 1 }),
-		download: new RateLimiterMemory({ points: 10, duration: 1 }),
+		download: new RateLimiterMemory({ points: 30, duration: 1 }),
 		upload: new RateLimiterMemory({ points: 1, duration: 3 })
 	},
 	donator: {
@@ -18,7 +18,7 @@ module.exports = {
 		pingSize: new RateLimiterMemory({ points: 1024, duration: 1, }),
 		pingRate: new RateLimiterMemory({ points: 32, duration: 1 }),
 		equip: new RateLimiterMemory({ points: 1, duration: 1 }),
-		download: new RateLimiterMemory({ points: 10, duration: 1 }),
+		download: new RateLimiterMemory({ points: 30, duration: 1 }),
 		upload: new RateLimiterMemory({ points: 1, duration: 3 })
 	},
 	vip: {
@@ -28,7 +28,7 @@ module.exports = {
 		pingSize: new RateLimiterMemory({ points: 1024, duration: 1, }),
 		pingRate: new RateLimiterMemory({ points: 32, duration: 1 }),
 		equip: new RateLimiterMemory({ points: 1, duration: 1 }),
-		download: new RateLimiterMemory({ points: 10, duration: 1 }),
+		download: new RateLimiterMemory({ points: 50, duration: 1 }),
 		upload: new RateLimiterMemory({ points: 1, duration: 3 })
 	}
 }
