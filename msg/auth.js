@@ -38,7 +38,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	ws.ready = true;
 
-	limits = ws.limits;
+	limits = ws.limits.clone();
 
 	Object.keys(limits).map(k => {
 		let limit = limits[k];
