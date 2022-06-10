@@ -7,5 +7,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	const user = await mongo.collection('users').findOne({ uuid: msg.uuid });
 
+	user.allowedBadges = ws.limits.allowedBadges;
+
 	utils.send(ws, { type: 'userInfo', user });
 }
