@@ -64,6 +64,7 @@ wss.on("connection", (ws, req) => {
 
 	ws.on('close', () => {
 		utils.close(wss, ws, events, mongo, redis);
+		connections[ws.ip].splice(connections[ws.ip].indexOf(ws), 1);
 	});
 
 	ws.ready = false;
