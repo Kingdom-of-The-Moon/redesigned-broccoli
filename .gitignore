@@ -105,3 +105,5 @@ dist
 
 # InteliJ project files
 .idea
+
+config/index.js

@@ -1,5 +1,5 @@
 const utils = require('../utils');
-const config = require('../config');
+const config = require('../config/index.example');
 
 module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	if (ws.ready) return;
