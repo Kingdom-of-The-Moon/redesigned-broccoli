@@ -17,7 +17,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	if (user) {
 		await mongo.collection('users').updateOne({ uuid: uuid }, {
 			$set: {
-				lastUsed: Date.now()
+				lastUsed: new Date()
 			}
 		});
 	}
@@ -27,7 +27,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 			uuid: uuid,
 			rank: 'default',
 			equipped: [],
-			lastUsed: Date.now()
+			lastUsed: new Date()
 		}
 		await mongo.collection('users').insertOne(user);
 	}

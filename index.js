@@ -2,6 +2,7 @@ const { MongoClient } = require('mongodb');
 const { createClient } = require('redis');
 const { WebSocketServer } = require('ws');
 const os = require('os');
+const config = require('./config');
 const EventEmitter = require('events');
 const fs = require('fs');
 const utils = require('./utils');
@@ -9,7 +10,7 @@ const utils = require('./utils');
 const events = new EventEmitter();
 const wss = new WebSocketServer({ port: 25500 });
 
-const mongo = new MongoClient('mongodb://admin:securePassword123@192.168.1.119:27017/?authMechanism=DEFAULT');
+const mongo = new MongoClient(config.mongoUrl);
 const redis = new createClient({
 	host: '127.0.0.1',
 	port: 6379
@@ -76,21 +77,6 @@ wss.on("connection", (ws, req) => {
 		if (!ws.ready) ws.close();
 	}, 2000);
 });
-
-setInterval(() => {
-	events.emit('system', {
-		memory: {
-			process: process.memoryUsage().heapUsed,
-			used: os.totalmem() - os.freemem(),
-			total: os.totalmem(),
-			free: os.freemem()
-		},
-		uptime: {
-			process: process.uptime(),
-			system: os.uptime()
-		}
-	});
-}, 1000);
 
 setInterval(() => {
 	wss.clients.forEach(ws => {
