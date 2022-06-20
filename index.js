@@ -1,8 +1,7 @@
 const { MongoClient } = require('mongodb');
 const { createClient } = require('redis');
 const { WebSocketServer } = require('ws');
-const os = require('os');
-const config = require('./config/index.example');
+const config = require('./config');
 const EventEmitter = require('events');
 const fs = require('fs');
 const utils = require('./utils');
