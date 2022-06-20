@@ -6,5 +6,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 
 	if (!msg.token || !config.adminKeys.includes(msg.token)) return ws.close(4000);
 
+	ws.ready = true;
+
 	utils.send(ws, { type: 'connected' });
 };

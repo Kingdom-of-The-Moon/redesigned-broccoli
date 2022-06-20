@@ -8,6 +8,7 @@ const utils = require('./utils');
 
 const events = new EventEmitter();
 const wss = new WebSocketServer({ port: 25500 });
+const awss = new WebSocketServer({ port: 25501 });
 
 const mongo = new MongoClient(config.mongoUrl);
 const redis = new createClient({
@@ -30,6 +31,14 @@ fs.readdirSync("./msg").forEach(file => {
 	if (!file.endsWith(".js")) return;
 	const msgType = file.substring(0, file.lastIndexOf("."));
 	msgTypes[msgType] = require("./msg/" + file);
+});
+
+const amsgTypes = {};
+
+fs.readdirSync("./admin").forEach(file => {
+	if (!file.endsWith(".js")) return;
+	const amsgType = file.substring(0, file.lastIndexOf("."));
+	amsgTypes[amsgType] = require("./admin/" + file);
 });
 
 const connections = [];
@@ -71,6 +80,29 @@ wss.on("connection", (ws, req) => {
 	ws.isAlive = true;
 
 	ws.subscribedTo = {};
+
+	setTimeout(() => {
+		if (!ws.ready) ws.close();
+	}, 2000);
+});
+
+awss.on("connection", (ws, req) => {
+	ws.on("message", async (wsmsg) => {
+		try {
+			let msg = utils.parse(wsmsg);
+			if (!msg.type) return utils.send(ws, { type: "system", message: `$ Invalid message.` });
+			const cmd = amsgTypes[msg.type];
+			if (!cmd) return utils.send(ws, { type: "system", message: `$ Type not implemented.` });
+			await cmd(wss, ws, msg, events, figura, redis);
+			console.log('recv', ws.uuid, msg);
+		} catch (e) {
+			console.error(e);
+			console.log(wsmsg);
+			utils.send(ws, { type: "system", message: `$ Something went wrong.` });
+		}
+	});
+
+	ws.ready = false;
 
 	setTimeout(() => {
 		if (!ws.ready) ws.close();
