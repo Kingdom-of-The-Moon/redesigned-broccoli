@@ -25,6 +25,10 @@ console.clear();
 	console.log('Figura backend is online.');
 })();
 
+const clients = {
+	byUuid: {}
+}
+
 const msgTypes = {};
 
 fs.readdirSync("./msg").forEach(file => {
@@ -62,7 +66,7 @@ wss.on("connection", (ws, req) => {
 			if (!msg.type) return utils.send(ws, { type: "system", message: `$ Invalid message.` });
 			const cmd = msgTypes[msg.type];
 			if (!cmd) return utils.send(ws, { type: "system", message: `$ Type not implemented.` });
-			await cmd(wss, ws, msg, events, figura, redis);
+			await cmd(wss, ws, msg, events, figura, redis, clients);
 			console.log('recv', ws.uuid, msg);
 		} catch (e) {
 			console.error(e);
@@ -72,7 +76,7 @@ wss.on("connection", (ws, req) => {
 	});
 
 	ws.on('close', () => {
-		utils.close(wss, ws, events, mongo, redis);
+		utils.close(wss, ws, events, mongo, redis, clients);
 		connections[ws.ip].splice(connections[ws.ip].indexOf(ws), 1);
 	});
 

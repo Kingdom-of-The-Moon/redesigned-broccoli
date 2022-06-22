@@ -5,14 +5,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients) => {
 	if (!ws.ready) return;
 
 	wss.clients.forEach(client => {
-		if (client.ready) {
-			utils.send(client, {
-				type: 'toast',
-				toast: msg.toast ? msg.toast : 'default',
-				top: msg.top ? msg.top : '',
-				bottom: msg.bottom ? msg.bottom : '',
-				raw: true
-			});
-		}
+		client.close(1012, 'Restarting');
+		process.exit(0);
 	});
 };

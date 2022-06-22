@@ -1,7 +1,7 @@
 const utils = require('../utils');
 const config = require('../config');
 
-module.exports = async (wss, ws, msg, events, mongo, redis) => {
+module.exports = async (wss, ws, msg, events, mongo, redis, clients) => {
 	if (ws.ready) return;
 
 	if (!msg.token) return ws.close(4000);
@@ -37,6 +37,8 @@ module.exports = async (wss, ws, msg, events, mongo, redis) => {
 	ws.limits = config.limits[ws.rank];
 
 	ws.ready = true;
+
+	clients.byUuid[uuid] = ws;
 
 	limits = {};
 
