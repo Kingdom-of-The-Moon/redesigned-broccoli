@@ -103,7 +103,7 @@ awss.on("connection", (ws, req) => {
 			if (!msg.type) return utils.send(ws, { type: "system", message: 'invalid message' });
 			const cmd = amsgTypes[msg.type];
 			if (!cmd) return utils.send(ws, { type: "system", message: 'invalid type' });
-			await cmd(wss, ws, msg, events, figura, redis);
+			await cmd(wss, ws, msg, events, figura, redis, clients, logger);
 			console.log('recv', ws.uuid, msg);
 		} catch (e) {
 			console.error(e);
