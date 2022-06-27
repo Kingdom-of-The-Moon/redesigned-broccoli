@@ -54,7 +54,7 @@ fs.readdirSync("./admin").forEach(file => {
 const connections = [];
 
 wss.on("connection", (ws, req) => {
-	ws.ip = req.socket.remoteAddress;
+	ws.ip = req.socket.remoteAddress.replace('::ffff:', '');
 
 	if (ws.ip in connections) {
 		if (connections[ws.ip].length >= 5) {
