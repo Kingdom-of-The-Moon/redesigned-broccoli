@@ -34,6 +34,8 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients) => {
 		await mongo.collection('users').insertOne(user);
 	}
 
+	if (user.banned) return ws.close(4001, typeof user.banned === 'string' ? user.banned : 'no ban reason');
+
 	ws.rank = user.rank;
 
 	ws.limits = config.limits[ws.rank];
