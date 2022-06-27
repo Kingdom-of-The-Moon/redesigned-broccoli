@@ -6,6 +6,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients) => {
 
 	wss.clients.forEach(client => {
 		client.close(1012, 'Restarting');
-		process.exit(0);
 	});
+
+	process.exit(0);
 };
