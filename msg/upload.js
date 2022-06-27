@@ -33,5 +33,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 		utils.send(ws, { type: 'toast', toast: 'default', top: 'upload_success' });
 
 		events.emit(ws.uuid, { type: 'upload', id: msg.id });
+
+		logger.log('info', `${ws.ip} ${ws.uuid} uploaded avatar ${msg.id}`);
 	}).catch(() => { return utils.rateLimited(ws, 'upload') });
 }

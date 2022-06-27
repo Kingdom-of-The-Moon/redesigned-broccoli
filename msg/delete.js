@@ -12,4 +12,6 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 	utils.send(ws, { type: 'toast', toast: 'default', top: 'delete_success' });
 
 	events.emit(ws.uuid, { type: 'delete', uuid: ws.uuid });
+
+	logger.log('info', `${ws.ip} ${ws.uuid} deleted avatar ${msg.id}`);
 }

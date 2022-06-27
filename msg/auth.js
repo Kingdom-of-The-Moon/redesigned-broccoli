@@ -54,5 +54,5 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 
 	utils.send(ws, { type: 'connected', limits });
 
-	console.log(`${ws.uuid} connected.`);
+	logger.log('info', `${ws.ip} ${ws.uuid} connected`);
 };

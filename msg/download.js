@@ -11,5 +11,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 		if (!avatar) return;
 
 		utils.send(ws, { type: 'avatar', avatar: avatar });
+
+		logger.log('info', `${ws.ip} ${ws.uuid} downloaded avatar ${msg.owner} / ${msg.id}`);
 	}).catch(() => { return utils.rateLimited(ws, 'download') });
 }
