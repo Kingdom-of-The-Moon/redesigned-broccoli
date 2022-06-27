@@ -100,15 +100,15 @@ awss.on("connection", (ws, req) => {
 	ws.on("message", async (wsmsg) => {
 		try {
 			let msg = utils.parse(wsmsg);
-			if (!msg.type) return utils.send(ws, { type: "system", message: `$ Invalid message.` });
+			if (!msg.type) return utils.send(ws, { type: "system", message: 'invalid message' });
 			const cmd = amsgTypes[msg.type];
-			if (!cmd) return utils.send(ws, { type: "system", message: `$ Type not implemented.` });
+			if (!cmd) return utils.send(ws, { type: "system", message: 'invalid type' });
 			await cmd(wss, ws, msg, events, figura, redis);
 			console.log('recv', ws.uuid, msg);
 		} catch (e) {
 			console.error(e);
 			console.log(wsmsg);
-			utils.send(ws, { type: "system", message: `$ Something went wrong.` });
+			utils.send(ws, { type: "system", message: 'something went wrong' });
 		}
 	});
 
