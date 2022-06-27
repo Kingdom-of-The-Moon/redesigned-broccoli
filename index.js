@@ -1,6 +1,7 @@
 const { MongoClient } = require('mongodb');
 const { createClient } = require('redis');
 const { WebSocketServer } = require('ws');
+const winston = require('winston');
 const config = require('./config');
 const EventEmitter = require('events');
 const fs = require('fs');
@@ -17,6 +18,11 @@ const redis = new createClient({
 });
 
 console.clear();
+
+const logger = winston.createLogger({
+	level: 'info',
+	format: winston.format.json()
+});
 
 (async () => {
 	await mongo.connect();
@@ -66,7 +72,7 @@ wss.on("connection", (ws, req) => {
 			if (!msg.type) return utils.send(ws, { type: "system", message: `$ Invalid message.` });
 			const cmd = msgTypes[msg.type];
 			if (!cmd) return utils.send(ws, { type: "system", message: `$ Type not implemented.` });
-			await cmd(wss, ws, msg, events, figura, redis, clients);
+			await cmd(wss, ws, msg, events, figura, redis, clients, logger);
 			console.log('recv', ws.uuid, msg);
 		} catch (e) {
 			console.error(e);
@@ -76,7 +82,7 @@ wss.on("connection", (ws, req) => {
 	});
 
 	ws.on('close', () => {
-		utils.close(wss, ws, events, mongo, redis, clients);
+		utils.close(wss, ws, events, mongo, redis, clients, logger);
 		connections[ws.ip].splice(connections[ws.ip].indexOf(ws), 1);
 	});
 

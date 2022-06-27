@@ -1,7 +1,7 @@
 const utils = require('../utils');
 const config = require('../config');
 
-module.exports = async (wss, ws, msg, events, mongo, redis, clients) => {
+module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => {
 	if (!ws.ready) return;
 
 	if (!msg.uuid) return;

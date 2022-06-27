@@ -1,6 +1,6 @@
 const utils = require('../utils');
 
-module.exports = async (wss, ws, msg, events, mongo, redis) => {
+module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => {
 	if (!ws.ready) return;
 
 	ws.limits.equip.consume(ws.ip, 1).then(async () => {

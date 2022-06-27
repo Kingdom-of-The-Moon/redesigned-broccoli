@@ -1,7 +1,7 @@
 const utils = require('../utils');
 const config = require('../config');
 
-module.exports = async (wss, ws, msg, events, mongo, redis) => {
+module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => {
 	if (!ws.ready) return;
 
 	ws.limits.upload.consume(ws.ip, 1).then(async () => {

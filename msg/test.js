@@ -1,6 +1,6 @@
 const utils = require('../utils');
 
-module.exports = async (wss, ws, msg, events, mongo, redis) => {
+module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => {
 	if (!ws.ready) return;
 
 	let m = 0;
