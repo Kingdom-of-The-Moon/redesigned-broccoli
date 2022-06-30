@@ -10,11 +10,11 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 
 		const l = config.limits[ws.rank];
 
-		if (Buffer.byteLength(msg.data) > l.maxAvatarSize) return events.emit(ws.uuid, { type: 'upload_failed', reason: 'upload_too_big', self: true});
+		if (Buffer.byteLength(msg.data) > l.maxAvatarSize) return events.emit(ws.uuid, { type: 'upload_error', reason: 'upload_too_big', self: true});
 
 		const avatars = await mongo.collection('avatars').countDocuments({ uuid: ws.uuid });
 
-		if (avatars > l.maxAvatars) return events.emit(ws.uuid, { type: 'upload_failed', reason: 'upload_too_many', self: true});
+		if (avatars > l.maxAvatars) return events.emit(ws.uuid, { type: 'upload_error', reason: 'upload_too_many', self: true});
 
 		/*
 		await mongo.collection('avatars').insertOne({
