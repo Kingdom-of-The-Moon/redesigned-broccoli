@@ -7,7 +7,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 
 	ws.limits.pingSize.consume(ws.ip, new Blob([JSON.stringify(msg.data)]).size /* might cause memory leaks, will fix if it happens */).then(async () => {
 		ws.limits.pingRate.consume(ws.ip, 1).then(async () => {
-			events.emit(ws.uuid, { type: 'ping', data: msg.data, name: msg.name, sync: msg.sync });
+			events.emit(ws.uuid, { type: 'ping', data: msg.data, name: msg.name });
 		}).catch(() => { return utils.rateLimited(ws, 'ping_rate') });
 	}).catch(() => { return utils.rateLimited(ws, 'ping_size') });
 }

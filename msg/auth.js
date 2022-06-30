@@ -42,10 +42,6 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 
 	ws.ready = true;
 
-	ws.subscribedTo[ws.uuid] = events.on(ws.uuid, data => {
-		utils.send(ws, { type: 'event', uuid: ws.uuid, event: data });
-	});
-
 	clients.byUuid[uuid] = ws;
 
 	limits = {};
