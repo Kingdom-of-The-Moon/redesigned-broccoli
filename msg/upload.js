@@ -30,7 +30,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 			}
 		}, { upsert: true });
 
-		utils.send(ws, { type: 'toast', toast: 'default', top: 'upload_success' });
+		// utils.send(ws, { type: 'toast', toast: 'default', top: 'upload_success' });
 
 		events.emit(ws.uuid, { type: 'upload', id: msg.id });
 
