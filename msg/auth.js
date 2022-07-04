@@ -28,6 +28,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 			uuid: uuid,
 			rank: 'default',
 			equipped: [],
+			equippedBadges: [],
 			lastUsed: new Date(),
 			lastIP: ws.ip
 		}
