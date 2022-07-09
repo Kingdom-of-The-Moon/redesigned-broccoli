@@ -9,5 +9,7 @@ module.exports = async (wss, ws, msg, events, mongo, redis, clients, logger) => 
 
 	user.allowedBadges = ws.limits.allowedBadges;
 
+	delete user.lastIP; // back-back-backstabber
+
 	utils.send(ws, { type: 'userInfo', user });
 }
